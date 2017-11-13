@@ -1,0 +1,15 @@
+<!-- 在*ngIf指令中,此时的输入属性hero如果为空-->
+<!-- ngIf指令会从DOM中移除表示英雄详情的这段HTML,从而不用担心刚开始的绑定问题(不然没选中的时候就都显示undefined了-->
+<!-- 当选中英雄后,此时的输入属性hero编程"已定义的值", 则ngIf会将英雄详情页添加会DOM中,并计算其嵌套的各种绑定 -->
+<div *ngIf="hero">
+  <h2>{{hero.name}} details!</h2>
+  <div>
+    <label>id: </label>{{hero.id}}
+  </div>
+  <div>
+    <label>name: </label>
+    <input [(ngModel)]="hero.name" placeholder="name"/>
+  </div>
+  <button (click)="goBack()">Back</button>
+  <button (click)="save()">Save</button>
+</div>

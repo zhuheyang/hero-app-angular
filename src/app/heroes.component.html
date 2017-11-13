@@ -1,0 +1,31 @@
+<div>
+  <label>Hero name:</label> <input #heroName />
+  <button (click)="add(heroName.value); heroName.value=''">
+    Add
+  </button>
+</div>
+
+<ul class="heroes">
+  <!-- 一行代码就把整个英雄列表给列出来了,了不起 -->
+  <!-- *ngFor指令从heroes数组中取出每个英雄(Object),将其存入一个局部定义的hero变量里,并在li > span 中使用-->
+  <!-- 在这的每一个li元素中都有绑定一个点击处理器(click),以及[class.selected]绑定-->
+  <li *ngFor="let hero of heroes"
+      [class.selected]="hero === selectedHero"
+      (click)="onSelect(hero)">
+    <span class="badge">{{hero.id}}</span>{{hero.name}}
+    <button class="delete"
+            (click)="delete(hero);
+          $event.stopPropagation()">x</button>
+  </li>
+</ul>
+
+<!-- 将selectedHero属性绑定到HeroDetailComponent的hero属性上 -->
+<!-- 则在此Onselected方法被点击激活后,hero-detail组件中会接收到被赋值的selectedHero-->
+<!-- 从而其内部定义的输入变量@Input hero也有了对应的值,可以调用其name,id属性了 -->
+
+<div *ngIf="selectedHero">
+  <h2>
+    {{selectedHero.name | uppercase}} is my hero
+  </h2>
+  <button (click)="gotoDetail()">View Details</button>
+</div>
