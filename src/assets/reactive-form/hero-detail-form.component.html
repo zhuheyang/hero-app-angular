@@ -1,0 +1,106 @@
+<!--<h2>Hero Detail</h2>-->
+<!--<h3><i>Just a FormControl</i></h3>-->
+<!--<h3><i>FormControl in a FormGroup</i></h3>-->
+<!--<h3><i>A FormGroup with a single FormControl using FormBuilder</i></h3>-->
+
+<!--<form>元素上的novalidate属性会阻止浏览器使用原生HTML中的表单验证器。-->
+<form [formGroup]="heroForm" (ngSubmit)="onSubmit" novalidate>
+  <div style="margin-bottom: 1em">
+    <button type="submit" [disabled]="heroForm.pristine" class="btn btn-success">Save</button> &nbsp;
+    <button type="reset" (click)="revert()" [disabled]="heroForm.pristine" class="btn btn-danger">Revert</button>
+  </div>
+
+  <!-- Hero Detail Controls-->
+  <div class="form-group">
+    <label class="center-block">Name:
+
+      <!-- 想让Angular将输入框关联到类中的FormControl型属性name-->
+      <!-- 在模板中的<input>,加上[formControl]="name"即可 -->
+      <!-- CSS类form-control,属于BootstrapCSSLibrary而不是Angular-->
+      <!--<input type="text" class="form-control" [formControl]="name">-->
+
+      <!--以上是不在FormGroup中的设置,该指令可独立工作-->
+      <!--如果有了FormGroup,需添加formControlName语法,让input关联到类中正确的FormControl-->
+      <!--该语法让Angular查阅父FormGroup（这里是heroForm）然后在这个FormGroup中查阅一个叫Name的FormControl-->
+      <input class="form-control" formControlName="name">
+    </label>
+  </div>
+
+  <!--<div formGroupName="address" class="well well-lg">-->
+  <div formArrayName="secretLairs" class="well well-lg">
+    <div *ngFor="let Address of secretLairs.controls; let i=index" [formGroupName]="i">
+      <h4>Secret Lair</h4>
+      <div class="form-group">
+        <label class="center-block">Street:
+          <input class="form-control" formControlName="street">
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="center-block">City:
+          <input class="form-control" formControlName="city">
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="center-block">State:
+          <select class="from-control" formControlName="state">
+            <option [value]="state" *ngFor="let state of states">{{state}}</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="center-block">Zip Code:
+          <input class="form-control" formControlName="zip">
+        </label>
+      </div>
+      <br>
+    </div>
+    <!--End of the repeated address template-form-->
+    <button (click)="addLair()" type="button">Add a Secret Lair</button>
+</div>
+
+  <div class="form-group radio">
+    <h4>Super power:</h4>
+    <label class="center-block">
+      <input type="radio" formControlName="power" value="flight">Flight
+    </label>
+    <label class="center-block">
+      <input type="radio" formControlName="power" value="x-ray-version">X-ray vision
+    </label>
+    <label class="center-block">
+      <input type="radio" formControlName="power" value="strength">Strength
+    </label>
+
+    <!--<label class="center-block"></label>-->
+    <!--<label class="center-block"></label>-->
+  </div>
+
+  <div class="checkbox">
+    <label class="center-block">
+      <input type="checkbox" formControlName="sidekick">I have a sidekick.
+    </label>
+  </div>
+
+</form>
+
+<p>heroForm value: {{heroForm.value | json}}</p>
+<!--heroForm.value会返回表单模型。 用JSON Pipe管道把这个模型以JSON格式渲染到浏览器中。-->
+<!--<p>Form value of "name": {{ heroForm.get('name').value | json }}</p>-->
+<!--<p>Form value of "address.street": {{ heroForm.get('address.street').value | json }}</p>-->
+<!--<p>Form value of "address.state": {{ heroForm.get('address.state').value | json }}</p>-->
+
+
+<h4>Name change log</h4>
+<div *ngFor="let name of nameChangeLog">{{name}}</div>
+<!--只有heroForm中的name有验证器required的Validators,
+则一旦name的input框有信息输入,即状态status从invalid转变为valid-->
+<!--<p>Form status: {{ heroForm.status | json }}</p>-->
+
+
+<!--// radio的例子-->
+<h3><i>模拟Radio表单的例子</i></h3>
+<form [formGroup]="checkForm">
+  <input type="radio" formControlName="food" value="beef" > Beef
+  <input type="radio" formControlName="food" value="lamb"> Lamb
+  <input type="radio" formControlName="food" value="fish"> Fish
+</form>
+<p>Form value: {{ checkForm.value | json }}</p>  <!-- {food: 'lamb' } -->

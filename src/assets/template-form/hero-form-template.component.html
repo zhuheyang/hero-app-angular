@@ -1,0 +1,23 @@
+<input type="text" id="name" name="name" class="form-control"
+       required minlength="4" forbiddenName="bob"
+        [(ngModel)]="hero.name" #name="ngModel">
+<!-- <input>元素带有一些HTML验证属性：required 和 minlength。
+     它还带有一个自定义的验证器指令forbiddenName-->
+<!-- #name="ngModel"把NgModel导出成了一个名叫name的局部变量。NgModel把自己控制的FormControl实例的属性映射出去，
+    让我们能在模板中检查控件的状态，比如valid和dirty。-->
+
+<div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+
+  <div *ngIf="name.errors.required">
+    Name is required.
+  </div>
+
+  <div *ngIf="name.errors.minLength">
+    Name must be at least 4 characters long.
+  </div>
+
+  <div *ngIf="name.errors.forbiddenName">
+    Name cannot be Bob.
+  </div>
+
+</div>

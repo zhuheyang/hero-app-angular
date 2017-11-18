@@ -12,8 +12,8 @@
   <li *ngFor="let hero of heroes"
       [class.selected]="hero === selectedHero"
       (click)="onSelect(hero)">
-    <span class="badge">{{hero.id}}</span>{{hero.name}}
-    <button class="delete"
+    <span class="hero-badge">{{hero.id}}</span>{{hero.name}}
+    <button class="hero-delete"
             (click)="delete(hero);
           $event.stopPropagation()">x</button>
   </li>
